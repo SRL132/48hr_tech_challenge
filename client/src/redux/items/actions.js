@@ -41,51 +41,23 @@ export const uploadFailure = () => {
     }
 }
 
-export const fetchAllMemes = () => {
+export const fetchAllMemes = (filter) => {
     return async (dispatch) => {
         try {
-            const res = await API.getAllMemes();
+            const res = await API.getAllMemes(filter);
             return dispatch(setMemes(res.data));
         } catch (error) {
             console.log(error, "loadError");
         }
     }
 }
-// export function fetchProperties(filter) {
-//     return async (dispatch) => {
-//         dispatch(setPropertiesLoading());
-//         try {
-//             const result = await getProperties(filter);
-//             console.log(filter);
-//             dispatch(setPropertiesResult(result));
-//             console.log(result);
-//         } catch (error) {
-//             dispatch(setPropertiesError(error));
-//         }
-//     };
-// }
 
 
-
-// export function fetchAllMemes() {
-//     return async (dispatch) => {
-//         dispatch(setLoading());
-
-//         await API.getAllMemes().then(res => {
-//             console.log(res);
-//         }
-//         ).
-//             catch(err => {
-//                 console.log(err);
-//             })
-//     }
-// }
-
-export function fetchAllGifs() {
+export function fetchAllGifs(filters) {
     return async (dispatch) => {
         dispatch(setLoading());
         try {
-            const res = await API.getAllGifs();
+            const res = await API.getAllGifs(filters);
 
             dispatch(setGifs(res.data));
         } catch (error) {

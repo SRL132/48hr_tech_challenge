@@ -22,7 +22,8 @@ async function createGif(req, res, next) {
 }
 
 async function getGif(req, res, next) {
-    const { params } = req;
+
+
 
     await GifModel.find()
         .then(result => {
@@ -37,16 +38,31 @@ async function getGif(req, res, next) {
 }
 
 async function getAllGifs(req, res, next) {
-    await GifModel.find()
-        .then(result => {
-            res.status(200).send({
-                success: true,
-                data: result,
+
+    if (req.query.categories?.length > 0) {
+
+        await GifModel.find({ category: req.query.categories })
+            .then(result => {
+                res.status(200).send({
+                    success: true,
+                    data: result,
+                });
+            })
+            .catch(error => {
+                next(error);
             });
-        })
-        .catch(error => {
-            next(error);
-        });
+    }
+    else {
+        await GifModel.find()
+            .then(result => {
+                res.status(200).send({
+                    success: true,
+                    data: result,
+                });
+            }).catch(error => {
+                next(error);
+            });
+    }
 }
 
 module.exports = {

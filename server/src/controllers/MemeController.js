@@ -28,16 +28,30 @@ function getMeme(req, res, next) {
 }
 
 async function getAllMemes(req, res, next) {
-    await MemeModel.find()
-        .then(result => {
-            res.status(200).send({
-                success: true,
-                data: result,
+    if (req.query.categories.length > 0) {
+
+        await MemeModel.find({ category: req.query.categories })
+            .then(result => {
+                res.status(200).send({
+                    success: true,
+                    data: result,
+                });
+            })
+            .catch(error => {
+                next(error);
             });
-        })
-        .catch(error => {
-            next(error);
-        });
+    }
+    else {
+        await MemeModel.find()
+            .then(result => {
+                res.status(200).send({
+                    success: true,
+                    data: result,
+                });
+            }).catch(error => {
+                next(error);
+            });
+    }
 }
 
 module.exports = {

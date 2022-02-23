@@ -25,13 +25,18 @@ export const uploadItem = async (item) => {
         });
 }
 
-export async function getAllMemes() {
-    const res = await axios.get(`${BASE_URL}/meme/`);
+export async function getAllMemes(filters) {
+    console.log(filters.categories)
+    const res = await axios.get(`${BASE_URL}/meme/`, {
+        params: filters
+    });
     return res.data;
 }
 
-export const getAllGifs = async () => {
-    const res = await axios.get(`${BASE_URL}/gif/`);
+export const getAllGifs = async (filters) => {
+    const res = await axios.get(`${BASE_URL}/gif/`, {
+        params: filters
+    });
     return res.data;
 
 }

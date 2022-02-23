@@ -13,13 +13,14 @@ import CategoryFilterCheckBox from '../../components/atoms/CategoryFilterCheckBo
 function Home() {
 
   const items = useSelector(state => state.items)
+  const filters = useSelector(state => state.filters)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchAllMemes())
-    dispatch(fetchAllGifs())
-  }, [dispatch])
+    dispatch(fetchAllMemes(filters))
+    dispatch(fetchAllGifs(filters))
+  }, [dispatch, filters])
 
   return (
     <div>
