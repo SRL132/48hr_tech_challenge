@@ -1,8 +1,9 @@
 import React from "react";
 import { Outlet, Navigate } from "react-router-dom";
+import { isAuthenticated } from "../../../utils/authUtils";
 
 export default function PrivateRoute({ component: Component, ...rest }) {
-    const user = JSON.parse(localStorage.getItem("user"));
 
-    return !user ? <Navigate to="/login" /> : <Outlet />;
+
+    return !isAuthenticated ? <Navigate to="/login" /> : <Outlet />;
 }

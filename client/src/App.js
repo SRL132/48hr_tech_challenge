@@ -18,19 +18,14 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path={ROUTES.HOME} element={<Home />} />
         <Route path={ROUTES.LOGIN} element={<Login />} />
-        <Route path={ROUTES.HOME} element={<PrivateRoute />} >
-          <Route path={ROUTES.HOME} element={<Home />} />
-        </Route>
-        <Route path='/element' element={<PrivateRoute />} >
-          <Route path='/element' element={<Element />} />
-        </Route>
-        <Route path='/upload' element={<PrivateRoute />} >
-          <Route exact strict path='/upload' element={<Upload />} />
-        </Route>
-        <Route path="/recoverpassword" element={<ResetPassword />} />
         <Route path={ROUTES.REGISTER} element={<Register />} />
+        <Route path='/element' element={<Element />} />
+
+        <Route path={ROUTES.UPLOAD} element={<PrivateRoute />} >
+          <Route exact strict path={ROUTES.UPLOAD} element={<Upload />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

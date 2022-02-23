@@ -1,10 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 
-import { NormalSignUp } from "../../../../redux/user/actions";
+import {
+    loginWithGoogle,
+    normalLogin,
+    setCurrentUser,
+    // signUpWithEmailRequest, 
+    signUpWithGoogleRequest,
+    userLogout
+} from "../../../../redux/user/actions";
 
+import { isAuthenticated } from "../../../../utils/authUtils";
+
+import * as ROUTES from "../../../../routes";
 // import { useAuth } from "context/auth/reducer";
 // import { syncUserData } from "services/utils";
 
@@ -20,23 +30,34 @@ export default function Register() {
 
     let navigate = useNavigate();
 
-    async function handleSubmit(e) {
+    // async function handleSubmit(e) {
+    //     e.preventDefault();
+    //     if (password === passwordConfirm) {
+    //         console.log(email, password)
+    //         try {
+    //             setLoading(true);
+    //             await dispatch(signUpWithEmailRequest(email, password));
+    //             // await syncUserData();
+    //             navigate("/home");
+    //         } catch {
+    //             setError("Something went wrong");
+    //         }
+    //     } else {
+    //         return setError("Passwords do not match");
+    //     }
+    //     setLoading(false);
+    // }
+
+    function handleSignInWithGoogle(e) {
         e.preventDefault();
-        if (password === passwordConfirm) {
-            console.log(email, password)
-            try {
-                setLoading(true);
-                await dispatch(NormalSignUp(email, password));
-                // await syncUserData();
-                navigate("/home");
-            } catch {
-                setError("Something went wrong");
-            }
-        } else {
-            return setError("Passwords do not match");
-        }
-        setLoading(false);
+        dispatch(signUpWithGoogleRequest());
     }
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate(ROUTES.HOME);
+        }
+    }, [isAuthenticated]);
 
     return (
         <div className="container p-5">
@@ -47,7 +68,7 @@ export default function Register() {
             {error && <p className="text-center danger">{error}</p>}
             <div className="row">
                 <div className="col-md-6 mx-auto">
-                    <form onSubmit={handleSubmit}>
+                    {/* <form onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label htmlFor="inputEmail">Email</label>
                             <input
@@ -88,7 +109,17 @@ export default function Register() {
                         >
                             Register
                         </button>
-                    </form>
+                    </form> */}
+                    <br />
+                    <button
+                        disabled={loading}
+                        type="submit"
+                        className="btn btn-primary"
+                        onClick={handleSignInWithGoogle}
+                    >
+                        Register with Google
+                    </button>
+
                     <p className="text-center">
                         Already have an account? Login <Link to="/login">here</Link>
                     </p>

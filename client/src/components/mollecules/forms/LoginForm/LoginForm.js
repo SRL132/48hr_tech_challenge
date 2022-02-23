@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 
-import { loginWithGoogle, normalLogin, setCurrentUser, syncUserData } from '../../../../redux/user/actions';
+import {
+    loginWithGoogle,
+    // normalLogin,
+    // setCurrentUser,
+    // signUpWithEmailRequest
+}
+    from '../../../../redux/user/actions';
 
-// import Button from "components/UI/Button/Button";
-// import { useAuth } from "context/auth/reducer";
-// import { syncUserData } from "services/utils";
+import { isAuthenticated } from "../../../../utils/authUtils";
+
+import * as ROUTES from "../../../../routes";
+
+
 
 export default function Register() {
     const [email, setEmail] = useState("");
@@ -28,28 +36,34 @@ export default function Register() {
             console.log("after sync");
             // setCurrentUser(res.data.userId);
 
-            navigate("/home", { replace: true });
+            // navigate(ROUTES.HOME, { replace: true });
         } catch {
             setError("User not found");
         }
     }
-    async function handleSubmit(e) {
-        e.preventDefault();
+    // async function handleSubmit(e) {
+    //     e.preventDefault();
 
-        try {
-            await normalLogin(email, password);
-            console.log("before sync");
-            const res = await syncUserData();
+    //     try {
+    //         await signUpWithEmailRequest(email, password);
+    //         console.log("before sync");
+    //         // const res = await syncUserData();
 
-            console.log("after sync");
-            setCurrentUser(res.data.userId);
+    //         // console.log("after sync");
+    //         // setCurrentUser(res.data.userId);
 
-            navigate("/home", { replace: true });
-        } catch (err) {
-            setError("Something went wrong");
-            console.log(err);
+    //         navigate(ROUTES.UPLOAD, { replace: true });
+    //     } catch (err) {
+    //         setError("Something went wrong");
+    //         console.log(err);
+    //     }
+    // }
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate(ROUTES.UPLOAD, { replace: true });
         }
-    }
+    }, [isAuthenticated]);
 
     return (
         <div className="container p-5">
@@ -57,7 +71,7 @@ export default function Register() {
             {error && <p className="text-center danger">{error}</p>}
             <div className="row">
                 <div className="col-md-6 mx-auto">
-                    <form onSubmit={handleSubmit}>
+                    {/* <form onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label htmlFor="inputEmail">Email</label>
                             <input
@@ -87,12 +101,19 @@ export default function Register() {
                         <button type="submit" className="btn btn-primary">
                             Log in
                         </button>
-                    </form>
+                    </form> */}
+
                     <br />
+                    <button
+
+                        type="submit"
+                        className="btn btn-primary"
+                        onClick={handleLoginWithGoogleClick}
+                    >
+                        Login with Google
+                    </button>
                     <p className="text-center">
-                        {/* Forgot your password? Reset your password{" "}
-                        <a href="/recoverpassword">here</a><br /> */}
-                        Don't have an account? Register <a href="/register">here</a>
+                        Don't have an account yet? Register <a href={ROUTES.REGISTER}>here</a>
                     </p>
                 </div>
             </div>

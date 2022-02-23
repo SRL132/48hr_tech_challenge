@@ -7,6 +7,9 @@ const morgan = require("morgan");
 const cors = require("cors");
 
 const { UserRouter } = require("./routes");
+const { MemeRouter } = require("./routes");
+const { GifRouter } = require("./routes");
+
 const { errorHandler } = require("./middlewares");
 
 const app = express();
@@ -18,6 +21,8 @@ app.use(parser.json());
 
 
 app.use("/user", UserRouter);
+app.use("/meme", MemeRouter);
+app.use("/gif", GifRouter);
 
 
 app.use(errorHandler);

@@ -5,6 +5,9 @@ import {
     SET_AUTH_LOGOUT,
     SET_AUTH_LOGIN,
     SET_AUTH_REGISTER,
+    SIGN_UP_SUCCESS,
+    SIGN_UP_REQUEST
+
 
 } from "./types"
 
@@ -13,21 +16,27 @@ import {
     registerWithEmailAndPassword,
     logout,
     getCurrentUser,
-    singInWithGoogle
+    signInWithGoogle,
+    // signUpWithEmailAndPassword,
+    sendPasswordResetEmail,
+    signOut,
+    getCurrentUserToken,
+    getCurrentUserEmail,
+
 }
     from "../../services/firebase/firebase"
 
 import * as API from "../../api/userApi"
 
-export const loginWithGoogle = (user) => {
-    singInWithGoogle()
+export const loginWithGoogle = () => {
+    signInWithGoogle()
         .then(res => {
             console.log(res);
+            localStorage.setItem("token", res.credential.accessToken);
+            localStorage.setItem("user", JSON.stringify(res.user));
             return res;
         })
 
-    return {
-    }
 }
 
 export const setCurrentUser = (user) => {
@@ -47,32 +56,42 @@ export const userLogout = (user) => {
     }
 }
 
-export const NormalSignUp = (email, password) => {
+export function signUpWithGoogleRequest() {
     return async function signUpThunk(dispatch) {
-        dispatch(API.signUp());
+        dispatch(signUpRequest());
         try {
-            // await auth.signInWithGoogle();
+            await loginWithGoogle();
             console.log("signin in with Google");
             dispatch(signUpSuccess());
         } catch (error) {
             console.log(error);
-            // dispatch(signUpError(error.message));
+            dispatch(signUpError(error.message));
         }
     };
 }
 
-export const signUpSuccess = () => {
-    return {
-    }
-}
+
+export const signUpRequest = (user) => ({
+    type: SIGN_UP_REQUEST,
+    payload: user,
+});
 
 
-export const registerWithGoogle = (user) => {
-}
+export const signUpSuccess = (user) => ({
+    type: SIGN_UP_SUCCESS,
+    payload: user,
+});
 
-export const syncUserData = (user) => {
-    return {
-    }
-}
+export const signOutRequest = () => ({
+    type: SET_AUTH_LOGOUT,
+});
 
+export const signUpError = (message) => ({
+    type: SET_AUTH_ERROR,
+    payload: message,
+});
 
+export const signOutError = (message) => ({
+    type: SET_AUTH_ERROR,
+    payload: message,
+});

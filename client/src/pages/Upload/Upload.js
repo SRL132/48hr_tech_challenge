@@ -1,7 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 
-export default function Upload() {
+import UploadForm from '../../components/atoms/UploadForm';
+import withLayout from '../../components/HOC/withLayout'
+
+
+
+function Upload() {
+
+ 
+
+
+
     return (
-        <div>Upload</div>
+        <UploadForm />
     )
 }
+
+
+export default withLayout(Upload)

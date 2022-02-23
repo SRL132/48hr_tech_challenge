@@ -1,12 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+
+import { isAuthenticated } from "../../../../utils/authUtils";
+
+import SearchInput from "../../../atoms/SearchInput/SearchInput";
+
+import { userLogout } from "../../../../redux/user/actions";
+
+import * as ROUTES from "../../../../routes";
+
 export default function MainNavBar() {
-    // const { logout, currentUser } = useAuth();
 
     async function handleLogout() {
         try {
-            // await logout();
+            await userLogout();
         } catch (err) {
             console.log(err);
         }
@@ -15,7 +23,7 @@ export default function MainNavBar() {
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-                <Link to="/home" replace className="navbar-brand">
+                <Link to="/" replace className="navbar-brand">
                     The Memeverse
                 </Link>
                 <button
@@ -33,22 +41,30 @@ export default function MainNavBar() {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav mr-auto">
                         <li className="nav-item active">
-                            <Link className="nav-link" to="/home">
+                            <Link className="nav-link" to="/">
                                 Home
                             </Link>
                         </li>
-                        {/* <li className="nav-item">
-                            {currentUser === null ? (
-                                <Link className="nav-link" to="/Login">
+                        <li className="nav-item">
+                            {!isAuthenticated ? (
+                                <Link className="nav-link" to={ROUTES.LOGIN}>
                                     Log In
                                 </Link>
                             ) : (
-                                <Link className="nav-link" to="/Login" onClick={handleLogout}>
+                                <Link className="nav-link" to={ROUTES.HOME} onClick={handleLogout}>
                                     Log Out
                                 </Link>
                             )}
-                        </li> */}
-                        <li className="nav-link">Best PC components in the world!</li>
+                        </li>
+                        <li className="nav-item active">
+                            <Link className="nav-link" to={ROUTES.UPLOAD}>
+                                Upload
+                            </Link>
+                        </li>
+                        <li className="nav-item active">
+                            <SearchInput />
+                        </li>
+                        <li className="nav-link">Best Memes and Gifs you can find!</li>
                     </ul>
                 </div>
             </nav>

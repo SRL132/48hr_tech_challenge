@@ -1,3 +1,7 @@
+const { UserModel } = require("../models");
+
+require('dotenv').config();
+
 async function createUser(req, res, next) {
     const { body } = req;
     const { password, email } = body;
@@ -82,22 +86,26 @@ async function getUser() {
 }
 
 async function signUp(req, res, next) {
+
     const { body } = req;
+
+    console.log(body);
+
     const { password, email } = body;
+    console.log(password, email);
     console.log("hello from signup");
-    // try {
-    //     const { uid } = await auth.createUser({
-    //         email,
-    //         displayName: email,
-    //         password,
-    //     });
-    //     catch (error) {
-    //         next(error);
-    //     }
-    //     const { createdAt, updatedAt, ...result } = (
-    //         await UserModel.create({ uid, ...body })
-    //     ).toJSON();
+
+    try {
+        const res = await UserModel.create({
+            email,
+        });
+
+    } catch (error) {
+        next(error);
+    }
 }
+
+
 
 
 module.exports = {
