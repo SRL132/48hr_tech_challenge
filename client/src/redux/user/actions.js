@@ -17,7 +17,6 @@ import {
     logout,
     getCurrentUser,
     signInWithGoogle,
-    // signUpWithEmailAndPassword,
     sendPasswordResetEmail,
     signOut,
     getCurrentUserToken,
@@ -25,8 +24,6 @@ import {
 
 }
     from "../../services/firebase/firebase"
-
-import * as API from "../../api/userApi"
 
 export const loginWithGoogle = () => {
     signInWithGoogle()
@@ -46,14 +43,15 @@ export const setCurrentUser = (user) => {
     }
 }
 
-export const normalLogin = () => {
-    return {}
-}
+
 
 
 export const userLogout = (user) => {
-    return {
-    }
+
+    signOut().then(res => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+    })
 }
 
 export function signUpWithGoogleRequest() {

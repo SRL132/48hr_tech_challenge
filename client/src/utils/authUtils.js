@@ -1,6 +1,9 @@
 export const isAuthenticated = () => {
     const token = localStorage.getItem('token');
-    if (token) {
+
+    console.log(token);
+
+    if (JSON.parse(token)) {
         return true;
     }
     return false;
